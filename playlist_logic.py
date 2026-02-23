@@ -168,6 +168,7 @@ def search_songs(
 
     for song in songs:
         value = str(song.get(field, "")).lower()
+        #interchanged the order of value and q to avoid potential NoneType errors
         if value and q in value:
             filtered.append(song)
 
