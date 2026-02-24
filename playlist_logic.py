@@ -59,23 +59,32 @@ def normalize_song(raw: Song) -> Song:
 
 def classify_song(song: Song, profile: Dict[str, object]) -> str:
     """Return a mood label given a song and user profile."""
-    energy = song.get("energy", 0)
-    genre = song.get("genre", "")
-    title = song.get("title", "")
+    genre = normalize_genre(str(song.get("genre", "")))
+    title = normalize_title(str(song.get("title", ""))).lower()
 
-    hype_min_energy = profile.get("hype_min_energy", 7)
-    chill_max_energy = profile.get("chill_max_energy", 3)
-    favorite_genre = profile.get("favorite_genre", "")
+    raw_energy = song.get("energy", 0)
+    energy = int(raw_energy) if isinstance(raw_energy, (int, float, str)) and str(raw_energy).strip().isdigit() else 0
+
+    raw_hype_min = profile.get("hype_min_energy", 7)
+    hype_min_energy = int(raw_hype_min) if isinstance(raw_hype_min, (int, float, str)) and str(raw_hype_min).strip().isdigit() else 7
+
+    raw_chill_max = profile.get("chill_max_energy", 3)
+    chill_max_energy = int(raw_chill_max) if isinstance(raw_chill_max, (int, float, str)) and str(raw_chill_max).strip().isdigit() else 3
+
+    favorite_genre = normalize_genre(str(profile.get("favorite_genre", "")))
 
     hype_keywords = ["rock", "punk", "party"]
     chill_keywords = ["lofi", "ambient", "sleep"]
 
-    is_hype_keyword = any(k in genre for k in hype_keywords)
-    is_chill_keyword = any(k in title for k in chill_keywords)
+    matches_favorite_genre = genre == favorite_genre and favorite_genre != ""
+    has_hype_energy = energy >= hype_min_energy
+    has_hype_keyword = any(keyword in genre for keyword in hype_keywords)
+    has_chill_energy = energy <= chill_max_energy
+    has_chill_keyword = any(keyword in title for keyword in chill_keywords)
 
-    if genre == favorite_genre or energy >= hype_min_energy or is_hype_keyword:
+    if matches_favorite_genre or has_hype_energy or has_hype_keyword:
         return "Hype"
-    if energy <= chill_max_energy or is_chill_keyword:
+    if has_chill_energy or has_chill_keyword:
         return "Chill"
     return "Mixed"
 
