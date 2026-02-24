@@ -111,3 +111,13 @@ If you finish early or want an extra challenge, try one of these:
 - Stay curious. The unpredictability is intentional and part of the experience.
 
 When you finish, Playlist Chaos will feel more predictable, and you will have taken your first steps into AI-assisted debugging.
+
+## TF Summary
+* The core concept students needed to understand:
+    * Using AI as a tool to better understand code functionality, and to use it as a pair programmer. Working with it to debug, test, and edit, but also cross-checking the information it gives you.
+* Where students are most likely to struggle
+    * Students will most likely struggle with testing the app extensively and coming up with functions to review. They might just click around and test a few functions, rather than taking their time to go over all the expectations and testing them.
+* Where AI was helpful vs. misleading
+    * AI was helpful in understanding the intent of the code, and recommending fixes. It was misleading by trying to fix everything at once, which may be a little confusing to students.
+* One way you would guide a student without giving the answer
+    * I would guide the student to ask better questions, help them frame their prompts better, to get the AI tool to guide them while explaining the changes. I would also guide them to trace the code themselves, instead of accepting the AI generated changes blindly.
